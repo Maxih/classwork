@@ -72,29 +72,4 @@ class Reply < ModelBase
     replies.map { |reply| Reply.new(reply) }
   end
 
-  def save
-    @id.nil? ? insert : update
-  end
-
-  def insert
-    QuestionDBConnection.instance.execute(<<-SQL, @@table_name, @question, @parent, @user, @body)
-      INSERT INTO
-        ? (question, parent, user, body)
-      VALUES
-        (?, ?, ?, ?)
-    SQL
-    @id = QuestionDBConnection.instance.last_insert_row_id
-  end
-
-  def update
-    QuestionDBConnection.instance.execute(<<-SQL, @@table_name, @question, @parent, @user, @body, @id)
-      UPDATE
-        ?
-      SET
-        question = ?, parent = ?, user = ?, body = ?
-      WHERE
-        id = ?
-    SQL
-  end
-
 end

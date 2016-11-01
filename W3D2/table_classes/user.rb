@@ -87,29 +87,4 @@ class User < ModelBase
     replies.first
   end
 
-  def save
-    @id.nil? ? insert : update
-  end
-
-  def insert
-    QuestionDBConnection.instance.execute(<<-SQL, @fname, @lname)
-      INSERT INTO
-        users (fname, lname)
-      VALUES
-        (?, ?)
-    SQL
-    @id = QuestionDBConnection.instance.last_insert_row_id
-  end
-
-  def update
-    QuestionDBConnection.instance.execute(<<-SQL, @fname, @lname, @id)
-      UPDATE
-        users
-      SET
-        fname = ?, lname = ?
-      WHERE
-        id = ?
-    SQL
-  end
-
 end

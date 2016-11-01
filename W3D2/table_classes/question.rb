@@ -65,29 +65,4 @@ class Question < ModelBase
   def num_likes
     QuestionLikes.num_likes_for_question_id(@id)
   end
-
-  def save
-    @id.nil? ? insert : update
-  end
-
-  def insert
-    QuestionDBConnection.instance.execute(<<-SQL, @@table_name, @title, @body, @author)
-      INSERT INTO
-        ? (title, body, author)
-      VALUES
-        (?, ?, ?)
-    SQL
-    @id = QuestionDBConnection.instance.last_insert_row_id
-  end
-
-  def update
-    QuestionDBConnection.instance.execute(<<-SQL, @@table_name, @title, @body, @author, @id)
-      UPDATE
-        ?
-      SET
-        title = ?, body = ?, author = ?
-      WHERE
-        id = ?
-    SQL
-  end
 end
