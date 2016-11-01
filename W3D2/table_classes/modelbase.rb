@@ -16,6 +16,39 @@ class ModelBase
     self.new(vals.first)
   end
 
+  def self.method_missing(method_name, *args)
+    if method_name[0..7] == "find_by_"
+      col_names = method_name[8..-1].split('_and_')
+      options = {}
+      args.each_with_index do |arg, index|
+        options[col_names[index]] = arg
+      end
+      self.where(options) if options.count > 0
+    end
+  end
+
+  def self.where(options)
+    query = nil
+    if options.is_a? String
+      query = "SELECT * FROM #{@@table_name} WHERE #{options}"
+    elsif options.is_a? Hash
+      cols_and_vals = []
+      options.each do |key, val|
+        cols_and_vals << "#{key} = '#{val}'"
+      end
+
+      query = "SELECT * FROM #{@@table_name} WHERE #{cols_and_vals.join(' AND ')}"
+    end
+
+    return nil if query.nil?
+    
+    vals = QuestionDBConnection.instance.execute(query)
+
+    return nil unless vals.length > 0
+
+    vals.map { |val| self.new(val) }
+  end
+
   def self.all
     vals = QuestionDBConnection.instance.execute(<<-SQL)
       SELECT
