@@ -9,4 +9,8 @@ class TagTopic < ActiveRecord::Base
   has_many :related_urls,
     through: :urls_join,
     source: :urls
+
+  def most_popular_link
+    self.related_urls.max_by(&:num_clicks)
+  end
 end
