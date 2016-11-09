@@ -1,0 +1,10 @@
+<% if logged_in? %>
+<h1>New Cat</h1>
+
+<%= render "shared/errors" %>
+
+<%= render "form", cat: @cat %>
+<% else %>
+<h1>You must be logged in to view this</h1>
+
+<% end %>

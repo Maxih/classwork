@@ -1,0 +1,7 @@
+<% if current_user && current_user.id == @cat.user_id %>
+<h1>Edit My Cat</h1>
+<%= render "shared/errors" %>
+<%= render "form", cat: @cat %>
+<% else %>
+<h1>This isnt your cat.</h1>
+<% end %>
