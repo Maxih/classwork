@@ -1,0 +1,32 @@
+<h1><%= @track.title %></h1>
+<h2>On: <a href="<%= album_url(@track.album.id) %>"><%= @track.album.title %></a></h2>
+<h3>By: <a href="<%= band_url(@track.band.id) %>"><%= @track.band.name %></a></h3>
+
+<section>
+  <pre>
+  <%= @track.ugly_lyrics %>
+</pre>
+</section>
+
+<section>
+  <% @track.notes.each do |note| %>
+    <p><%= note.note %></p>
+    <p><%= note.user.email %></p>
+    <% if current_user && note.user.id == current_user.id %>
+    <form action="<%= note_url(note.id) %>" method="POST">
+      <%= auth_token %>
+      <input type="hidden" name="_method" value="DELETE" >
+      <button>Delete this note</button>
+    </form>
+
+    <% end %>
+  <% end %>
+
+  <%= render "shared/note_form", track: @track %>
+</section>
+
+<form action="<%= track_url(@track.id) %>" method="POST">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="DELETE" >
+  <button>Delete this track</button>
+</form>
