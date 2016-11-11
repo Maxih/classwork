@@ -1,0 +1,25 @@
+<% action_url = post.persisted? ? post_url(post) : posts_url %>
+<form action="<%= action_url %>" method="post">
+  <% if post.persisted? %>
+  <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+  <%= auth_token %>
+
+  <input type="text" name="post[title]" value="<%= post.title %>" placeholder="Title">
+  <br>
+  <input type="text" name="post[url]" value="<%= post.url %>" placeholder="URL">
+  <br>
+  <label for="content">Post Content</label>
+  <br>
+  <textarea name="post[content]" id="content"><%= post.content %></textarea>
+  <br>
+  <label for="subs">Pick subs</label>
+  <select id="subs" multiple name="post[sub_ids][]">
+    <% Sub.all.each do |subb| %>
+    <option value="<%= subb.id %>" <%= 'selected' if subb.id == params[:sub_id].to_i %> ><%= subb.title %></option>
+    <% end %>
+  </select>
+
+  <input type="submit" value="Submit">
+
+</form>

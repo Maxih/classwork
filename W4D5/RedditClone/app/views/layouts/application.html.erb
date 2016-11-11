@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RedditClone</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script>
+  $(document).ready(function() {
+    $(".comment_link").each(function() {
+      var id = $(this).attr('id');
+      $("#comment_"+id).hide();
+    });
+    $(".comment_link").click(function() {
+      id = $(this).attr('id');
+
+      $("#comment_"+id).toggle(200);
+    });
+  });
+  </script>
+</head>
+<body>
+  <header>
+    <% if logged_in? %>
+    <span class="welcome_message">Welcome back <%= current_user.username %></span>
+    <form action="<%= session_url %>" method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <%= auth_token %>
+      <button>Log Out</button>
+    </form>
+    <% else %>
+    <form action="<%= new_session_url %>" method="get">
+      <button>Log In</button>
+    </form>
+    <form action="<%= new_user_url %>" method="get">
+      <button>Register</button>
+    </form>
+    <% end %>
+  </header>
+
+  <% if flash[:errors] %>
+  <section>
+    <ul>
+      <% flash[:errors].each do |error| %>
+      <li><%= error %></li>
+      <% end %>
+    </ul>
+  </section>
+  <% end %>
+
+<%= yield %>
+
+</body>
+</html>

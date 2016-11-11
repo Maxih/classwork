@@ -1,0 +1,25 @@
+<h1>Viewing sub <%= @sub.title %></h1>
+<h2><a href="<%= new_sub_post_url(@sub) %>">Create a new post</a></h2>
+
+<ul>
+  <% @sub.posts.each do |post| %>
+  <li>
+
+    <a href="<%= post_url(post) %>"><%= post.title %></a>
+    <% if post.url %>
+    - <a href="<%= post.url %>">Go to url</a>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
+
+<% if current_user.id == @sub.user_id %>
+<form action="<%= edit_sub_url %>" method="get">
+  <button>Edit sub</button>
+</form>
+<form action="<%= sub_url(@sub) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="DELETE">
+  <button>Delete sub</button>
+</form>
+<% end %>

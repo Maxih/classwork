@@ -1,0 +1,32 @@
+
+<section>
+  <fieldset class="post_body">
+  <legend><%= @post.title %></legend>
+  
+  <% if current_user.id == @post.user_id %>
+  <span class="post_option">
+    <form action="<%= edit_post_url %>" method="get">
+      <button>Edit post</button>
+    </form>
+    <form action="<%= post_url(@post) %>" method="post">
+      <%= auth_token %>
+      <input type="hidden" name="_method" value="DELETE">
+      <button>Delete post</button>
+    </form>
+  </span>
+  <% end %>
+
+  <% if @post.url %>
+  <h2><a href="<%= @post.url %>"><%= @post.url %></a></h2>
+  <% end %>
+  <p> <%= @post.content %> </p>
+
+  <section>
+    <fieldset class="comments">
+      <legend>Post a comment</legend>
+    <%= render 'comment_form', comment: Comment.new(post_id: @post.id) %>
+    </fieldset>
+    <%= comments %>
+  </section>
+  </fieldset>
+</section>
