@@ -69,4 +69,16 @@ class ControllerBase
       self.render name
     end
   end
+
+  def form_authenticity_token
+
+  end
+
+  def check_authenticity_token
+
+  end
+
+  def self.protect_from_forgery
+
+  end
 end
