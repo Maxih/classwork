@@ -1,0 +1,56 @@
+.tabs li {
+  display: inline-block;
+  list-style-type: none;
+  background-color: green;
+  cursor: pointer;
+  border: 1px solid #000;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0px 10px;
+  width: 33.333%;
+  box-sizing: border-box;
+  border-bottom: none;
+}
+
+.tabs li:hover {
+  background-color: yellow;
+}
+
+.tabs ul {
+  padding: 0;
+  margin: 0;
+  width: 300px;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.tabs article {
+  width: 300px;
+  min-height: 300px;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 1px solid #000;
+  text-align: center;
+  background-color: lightblue;
+  font-size: 22px;
+}
+
+.tabs {
+
+  float: left;
+}
+
+.tabs li.active {
+  background-color: red;
+}
+
+.clock {
+  font-family: sans-serif;
+}
+
+.weather {
+  display: block;
+  font-family: fantasy;
+
+}
